@@ -1,6 +1,7 @@
 (function() {
     var freq = 13333;
     var ctx;
+    var signal;
 
     function schedule(date) {
         var now = Date.now();
@@ -147,7 +148,7 @@
             t = next;
             delay += 60 * 1000;
         }
-        schedule(new Date(t));
+        signal = schedule(new Date(t));
 
         setTimeout(function() {
             interval();
@@ -156,7 +157,7 @@
 
         function interval() {
             t += 60 * 1000;
-            schedule(new Date(t));
+            signal = schedule(new Date(t));
         }
     }
 
@@ -185,4 +186,35 @@
             start();
         }
     });
+
+    var canvas = document.getElementById('canvas');
+    var ctx2d = canvas.getContext('2d');
+    var w = canvas.width;
+    var h = canvas.height;
+
+    render();
+    function render() {
+        var i;
+        ctx2d.clearRect(0, 0, w, h);
+        if (!signal) {
+            requestAnimationFrame(render);
+            return;
+        }
+        var now = Math.floor(Date.now() / 1000) % 60;
+
+        for (i = 0; i < signal.length; i++) {
+            if (i == now) {
+                if (signal[i] < 0.3) ctx2d.fillStyle = "#FF0000";
+                else if (signal[i] < 0.7) ctx2d.fillStyle = "#FFFF00";
+                else ctx2d.fillStyle = "#00FF00";
+            } else {
+                if (signal[i] < 0.3) ctx2d.fillStyle = "#7F0000";
+                else if (signal[i] < 0.7) ctx2d.fillStyle = "#7F7F00";
+                else ctx2d.fillStyle = "#007F00";
+            }
+            ctx2d.fillRect((i%30)*30, Math.floor(i/30)*100, 30 * signal[i], 80);
+        }
+        requestAnimationFrame(render);
+    }
+
 })();
