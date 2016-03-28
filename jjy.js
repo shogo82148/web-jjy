@@ -187,6 +187,7 @@
         }
     });
 
+    var nowtime = document.getElementById('time');
     var canvas = document.getElementById('canvas');
     var ctx2d = canvas.getContext('2d');
     var w = canvas.width;
@@ -194,6 +195,8 @@
 
     render();
     function render() {
+        nowtime.innerText = new Date().toString();
+
         var i;
         ctx2d.clearRect(0, 0, w, h);
         if (!signal) {
