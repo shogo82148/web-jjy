@@ -3,6 +3,8 @@
     var ctx;
     var signal;
 
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+
     function schedule(date) {
         var now = Date.now();
         var start = date.getTime();
