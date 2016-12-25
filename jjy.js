@@ -172,6 +172,7 @@
             ctx.close();
             ctx = null;
         }
+        signal = undefined;
     }
 
     var control_button = document.getElementById("control-button");
