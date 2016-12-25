@@ -5,16 +5,35 @@
 
     var AudioContext = window.AudioContext || window.webkitAudioContext;
 
+    // うるう秒挿入日一覧(日本時)
+    var plus_leapsecond_list = [
+        new Date(2017, 0, 1, 9)
+    ];
+
+    // うるう秒 +1:一ヶ月以内に挿入 -1:一ヶ月以内に削除
+    function getleapsecond() {
+        var now = Date.now();
+        for(var i = 0; i < plus_leapsecond_list.length; i++) {
+            var diff = plus_leapsecond_list[i] - now;
+            if (diff > 0 && diff <= 31*24*60*60*1000) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
     function schedule(date) {
         var now = Date.now();
         var start = date.getTime();
         var offset = (start - now) / 1000 + ctx.currentTime;
         var minute = date.getMinutes();
         var hour = date.getHours();
-        var year = date.getFullYear() % 100;
+        var fullyear = date.getFullYear();
+        var year = fullyear % 100;
         var week_day = date.getDay();
         var year_day = (new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime() - new Date(date.getFullYear(), 0, 1).getTime()) / (24*60*60*1000) + 1;
         var array = [];
+        var leapsecond = getleapsecond();
 
         // 毎分s秒の位置のマーカーを出力する
         function marker(s) {
@@ -125,8 +144,19 @@
         week_day = bit(52, week_day, 1);
 
         // うるう秒
-        bit(53, 0, 1); // 0
-        bit(54, 0, 1); // 0
+        if (leapsecond === 0) {
+            // うるう秒なし
+            bit(53, 0, 1); // 0
+            bit(54, 0, 1); // 0
+        } else if (leapsecond > 0) {
+            // 正のうるう秒
+            bit(53, 1, 1); // 1
+            bit(54, 1, 1); // 1
+        } else {
+            // 負のうるう秒
+            bit(53, 1, 1); // 1
+            bit(54, 0, 1); // 0
+        }
 
         bit(55, 0, 1); // 0
         bit(56, 0, 1); // 0
