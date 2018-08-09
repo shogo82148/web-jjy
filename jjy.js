@@ -22,7 +22,7 @@
         return 0;
     }
 
-    function schedule(date) {
+    function schedule(date, summer_time) {
         var now = Date.now();
         var start = date.getTime();
         var offset = (start - now) / 1000 + ctx.currentTime;
@@ -124,7 +124,13 @@
 
         marker(39); // P4
 
-        bit(40, 0, 1); // SU2
+        // SU2
+        if (summer_time) {
+            bit(40, 1, 1);
+        } else {
+            // 夏時間実施中（６日以内に夏時間から通常時間への変更なし）
+            bit(40, 0, 1);
+        }
 
         // 年
         year = bit(41, year, 80);
@@ -169,6 +175,7 @@
     }
 
     var intervalId;
+    var summer_time_input = document.getElementById("summer-time")
 
     function start() {
         ctx = new AudioContext();
@@ -180,7 +187,7 @@
             t = next;
             delay += 60 * 1000;
         }
-        signal = schedule(new Date(t));
+        signal = schedule(new Date(t), summer_time_input.checked);
 
         setTimeout(function() {
             interval();
@@ -189,7 +196,7 @@
 
         function interval() {
             t += 60 * 1000;
-            signal = schedule(new Date(t));
+            signal = schedule(new Date(t), summer_time_input.checked);
         }
     }
 
