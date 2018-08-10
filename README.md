@@ -34,3 +34,9 @@ MacBook Air + Google Chrome 48.0.2564.116 + CITIZEN 8RZ152 で動作を確認し
 ## ライセンス
 
 MITライセンスで提供します。[LICENSE.md](https://github.com/shogo82148/web-jjy/blob/gh-pages/LICENSE.md)を参照してください。
+
+## 関連リンク
+
+- [shogo82148/web-jjy](https://github.com/shogo82148/web-jjy)
+- [Webブラウザを使って電波を出してみた](https://shogo82148.github.io/blog/2016/03/29/web-jjy/)
+- [Web JJY が夏時間に対応しました](https://shogo82148.github.io/blog/2018/08/11/web-jjy-summer-time-support/)
