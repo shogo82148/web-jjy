@@ -51,10 +51,11 @@
         // パリティービット
         var pa;
 
-        // bitを出力する
+        // bitを出力し、パリティビットを更新する
         function bit(s, value, weight) {
             var b = value >= weight;
             value -= b ? weight : 0;
+            pa += b ? 1 : 0;
             array.push(b ? 0.5 : 0.8);
             var t = s + offset;
             if (t < 0) return value;
