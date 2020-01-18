@@ -1,7 +1,7 @@
 (function() {
     // ToDo: 周波数調整
     //周波数だけ変更。高調波として60kHzの成分が出ることに期待。
-    var freq = 30000; 
+    var freq = 40000; 
     var ctx;
     var signal;
 
