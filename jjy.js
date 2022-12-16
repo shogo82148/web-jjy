@@ -190,7 +190,8 @@
         }
         signal = schedule(new Date(t), summer_time_input.checked);
 
-        setTimeout(function() {
+        // HACK: timeout発火前にキャンセルする
+        intervalId = setTimeout(function() {
             interval();
             intervalId = setInterval(interval, 60 * 1000);
         }, delay);
